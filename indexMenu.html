@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajanef | Premium Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: #f2c483;
+            --gold-soft: #d4a96a;
+            --bg-dark: #0e0e13;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-luxury { font-family: 'Playfair Display', serif; }
+
+        /* Ambient Glow Background */
+        .ambient-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(242, 196, 131, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(242, 196, 131, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(242, 196, 131, 0.4);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(242, 196, 131, 0.1);
+        }
+
+        /* Premium Search Bar */
+        .search-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(242, 196, 131, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Category Pills */
+        .category-pill {
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-pill.active {
+            background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+            color: #0e0e13;
+            box-shadow: 0 4px 15px rgba(242, 196, 131, 0.3);
+            border-color: transparent;
+        }
+
+        .price-tag {
+            color: var(--gold);
+            text-shadow: 0 0 8px rgba(242, 196, 131, 0.3);
+        }
+
+        /* Image Zoom on Hover */
+        .card-image-container img {
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .glass-card:hover .card-image-container img {
+            transform: scale(1.1);
+        }
+
+        /* Featured Item Highlight */
+        .featured-item {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 768px) {
+            .featured-item { grid-column: span 1; }
+        }
+        
+        /* Custom Scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* -------------------------------- */
+         /* Ambient Background Glow */
+         .ambient-glow {
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(242, 196, 131, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(242, 196, 131, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Carousel Container with Edge Fade */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            mask-image: linear-gradient(
+                to right,
+                transparent,
+                black 10%,
+                black 90%,
+                transparent
+            );
+            -webkit-mask-image: linear-gradient(
+                to right,
+                transparent,
+                black 10%,
+                black 90%,
+                transparent
+            );
+        }
+
+        /* Carousel Track */
+        .carousel-track {
+            display: flex;
+            gap: 2rem;
+            will-change: transform;
+            width: max-content;
+        }
+
+        /* Carousel Item */
+        .carousel-item {
+            flex-shrink: 0;
+            width: 250px;
+            height: 250px;
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .carousel-item:hover {
+            transform: scale(1.05);
+            border-color: rgba(242, 196, 131, 0.6);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(242, 196, 131, 0.15);
+            z-index: 10;
+        }
+
+        /* Image Styling */
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .carousel-item:hover img {
+            transform: scale(1.15);
+        }
+
+        /* Gradient Overlay */
+        .item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(14, 14, 19, 0.95) 0%,
+                rgba(14, 14, 19, 0.6) 40%,
+                transparent 100%
+            );
+            z-index: 1;
+        }
+
+        /* Content Styling */
+        .item-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            z-index: 2;
+            transform: translateY(10px);
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .carousel-item:hover .item-content {
+            transform: translateY(0);
+        }
+
+        .price-tag {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 10px rgba(242, 196, 131, 0.3);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .item-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: white;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        /* Glow Effect Behind Carousel */
+        .carousel-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 60%;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(242, 196, 131, 0.08) 0%,
+                transparent 70%
+            );
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(60px);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .carousel-item {
+                width: 220px;
+                height: 250px;
+            }
+            
+            .item-title {
+                font-size: 1.25rem;
+            }
+            
+            .carousel-wrapper {
+                mask-image: linear-gradient(
+                    to right,
+                    transparent,
+                    black 5%,
+                    black 95%,
+                    transparent
+                );
+                -webkit-mask-image: linear-gradient(
+                    to right,
+                    transparent,
+                    black 5%,
+                    black 95%,
+                    transparent
+                );
+            }
+        }
+
+        /* Pause animation when hovering any item */
+        .carousel-wrapper:hover .carousel-track {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body class="py-20 px-4">
+    <div class="ambient-glow"></div>
+
+    <section class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <span class="text-[#f2c483] tracking-[0.4em] uppercase text-xs mb-2 block">Café & Restaurant</span>
+            <h1 class="font-luxury text-5xl md:text-7xl mb-4">Ajanef</h1>
+            <p class="text-gray-400 text-sm tracking-widest uppercase mb-8">Premium Dining Experience</p>
+            
+             <!-- Carousel Section -->
+                <section class="relative py-16 md:py-24">
+                    <!-- Ambient Glow Behind -->
+                    <div class="carousel-glow"></div>
+
+                    <div class="carousel-wrapper" id="carouselWrapper">
+                        <div class="carousel-track" id="carouselTrack">
+                            <!-- Original Items -->
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=800" alt="Italian Pizza">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">75-95 MAD</span>
+                                    <h3 class="item-title">Wood-Fired Pizza</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1541518763669-27fef04b14ea?q=80&w=800" alt="Moroccan Breakfast">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">65 MAD</span>
+                                    <h3 class="item-title">Traditional Breakfast</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=800" alt="Specialty Coffee">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">25-35 MAD</span>
+                                    <h3 class="item-title">Specialty Coffee</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1624353365286-3f8d62daad51?q=80&w=800" alt="Chocolate Lava">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">50 MAD</span>
+                                    <h3 class="item-title">Chocolate Lava Cake</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?q=80&w=800" alt="Moroccan Tagine">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">110 MAD</span>
+                                    <h3 class="item-title">Royal Tagine</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1550304943-4f24f54ddde9?q=80&w=800" alt="Caesar Salad">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">60 MAD</span>
+                                    <h3 class="item-title">Caesar Salad</h3>
+                                </div>
+                            </div>
+                        
+
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=800" alt="Italian Pizza">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">75-95 MAD</span>
+                                    <h3 class="item-title">Wood-Fired Pizza</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1541518763669-27fef04b14ea?q=80&w=800" alt="Moroccan Breakfast">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">65 MAD</span>
+                                    <h3 class="item-title">Traditional Breakfast</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=800" alt="Specialty Coffee">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">25-35 MAD</span>
+                                    <h3 class="item-title">Specialty Coffee</h3>
+                                </div>
+                            </div>
+                            <!-- Duplicated Items for Seamless Loop -->
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=800" alt="Italian Pizza">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">75-95 MAD</span>
+                                    <h3 class="item-title">Wood-Fired Pizza</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1541518763669-27fef04b14ea?q=80&w=800" alt="Moroccan Breakfast">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">65 MAD</span>
+                                    <h3 class="item-title">Traditional Breakfast</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=800" alt="Specialty Coffee">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">25-35 MAD</span>
+                                    <h3 class="item-title">Specialty Coffee</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1624353365286-3f8d62daad51?q=80&w=800" alt="Chocolate Lava">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">50 MAD</span>
+                                    <h3 class="item-title">Chocolate Lava Cake</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?q=80&w=800" alt="Moroccan Tagine">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">110 MAD</span>
+                                    <h3 class="item-title">Royal Tagine</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1550304943-4f24f54ddde9?q=80&w=800" alt="Caesar Salad">
+                                <div class="item-overlay"></div>
+                                <div class="item-content">
+                                    <span class="price-tag">60 MAD</span>
+                                    <h3 class="item-title">Caesar Salad</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-12">
+                <input type="text" id="menuSearch" placeholder="Search for a dish..." 
+                       class="search-input w-full md:w-80 px-6 py-3 rounded-full text-white placeholder-gray-500">
+                
+                <div class="w-full overflow-x-auto scrollbar-hide flex gap-3 pb-4 px-2 justify-start md:justify-center" id="categoryContainer">
+                    <button class="category-pill active px-6 py-2 rounded-full whitespace-nowrap text-sm uppercase tracking-widest" data-category="all">All</button>
+                    <button class="category-pill px-6 py-2 rounded-full whitespace-nowrap text-sm uppercase tracking-widest" data-category="breakfast">Breakfast</button>
+                    <button class="category-pill px-6 py-2 rounded-full whitespace-nowrap text-sm uppercase tracking-widest" data-category="mains">Main Dishes</button>
+                    <button class="category-pill px-6 py-2 rounded-full whitespace-nowrap text-sm uppercase tracking-widest" data-category="starters">Salads</button>
+                    <button class="category-pill px-6 py-2 rounded-full whitespace-nowrap text-sm uppercase tracking-widest" data-category="drinks">Drinks</button>
+                    <button class="category-pill px-6 py-2 rounded-full whitespace-nowrap text-sm uppercase tracking-widest" data-category="desserts">Desserts</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="menuGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        </div>
+    </section>
+
+    <script>
+         // Carousel Configuration
+         const track = document.getElementById('carouselTrack');
+        const wrapper = document.getElementById('carouselWrapper');
+        let animation;
+        let isPaused = false;
+
+        // Calculate the width of half the track (original items only)
+        const getScrollWidth = () => {
+            return track.scrollWidth / 2;
+        };
+
+        // Initialize Animation
+        function initCarousel() {
+            const scrollWidth = getScrollWidth();
+            
+            // Create anime.js timeline for infinite loop
+            animation = anime({
+                targets: track,
+                translateX: -scrollWidth,
+                duration: 40000, // 40 seconds for slow cinematic feel
+                easing: 'linear',
+                loop: true,
+                autoplay: true,
+                update: function(anim) {
+                    // Seamless reset handled by loop: true with translateX
+                    // When it reaches the end, it automatically resets smoothly
+                }
+            });
+        }
+
+        // Pause on hover
+        wrapper.addEventListener('mouseenter', () => {
+            if (animation) animation.pause();
+            isPaused = true;
+        });
+
+        // Resume on leave
+        wrapper.addEventListener('mouseleave', () => {
+            if (animation) animation.play();
+            isPaused = false;
+        });
+
+        // Individual item hover effects
+        const items = document.querySelectorAll('.carousel-item');
+        items.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                // Dim other items slightly
+                items.forEach(other => {
+                    if (other !== item) {
+                        other.style.opacity = '0.6';
+                        other.style.filter = 'blur(2px)';
+                    }
+                });
+            });
+
+            item.addEventListener('mouseleave', () => {
+                // Restore all items
+                items.forEach(other => {
+                    other.style.opacity = '1';
+                    other.style.filter = 'blur(0px)';
+                });
+            });
+        });
+
+        // Handle window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (animation) animation.pause();
+                anime.remove(track);
+                track.style.transform = 'translateX(0)';
+                initCarousel();
+            }, 250);
+        });
+
+        // Initialize on load
+        window.addEventListener('load', initCarousel);
+        
+        // Also initialize immediately if already loaded
+        if (document.readyState === 'complete') {
+            initCarousel();
+        }
+
+        // Smooth scroll handling for better performance
+        let ticking = false;
+        function updateCarousel() {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+        
+        // Optimize visibility changes
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (animation) animation.pause();
+            } else if (!isPaused) {
+                if (animation) animation.play();
+            }
+        });
+        // -------------------------------
+        const menuData = [
+            // Breakfast
+            { id: 1, title: "Traditional Moroccan Breakfast", price: "65 MAD", category: "breakfast", img: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?q=80&w=800", desc: "Olive oil, amlou, honey, local cheese, eggs, msemen & traditional tea.", featured: true },
+            { id: 2, title: "Ajanef Special Breakfast", price: "95 MAD", category: "breakfast", img: "https://images.unsplash.com/photo-1533089862017-5614ecb352ae?q=80&w=800", desc: "Rich selection combining modern and traditional breakfast items." },
+            { id: 3, title: "Assorted Omelettes", price: "45 MAD", category: "breakfast", img: "https://images.unsplash.com/photo-1510693206972-df098062cb71?q=80&w=800", desc: "Plain, with cheese, or with vegetables. Served with fresh bread." },
+            { id: 4, title: "Pancakes & Waffles", price: "55 MAD", category: "breakfast", img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=800", desc: "Served with chocolate sauce or fresh seasonal fruits." },
+            
+            // Main Dishes
+            { id: 5, title: "Italian Pizza", price: "75-95 MAD", category: "mains", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=800", desc: "Margherita, Seafood, Chicken, or Four Cheeses. Wood-fired crust.", featured: true },
+            { id: 6, title: "Pasta Selection", price: "85 MAD", category: "mains", img: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?q=80&w=800", desc: "Chicken Alfredo, Spaghetti Bolognese, or Seafood Pasta." },
+            { id: 7, title: "Moroccan Tagines", price: "110 MAD", category: "mains", img: "https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?q=80&w=800", desc: "Meat with prunes & almonds, or Chicken with olives & preserved lemon." },
+            { id: 8, title: "Gourmet Burgers", price: "75 MAD", category: "mains", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800", desc: "Classic beef burger, cheeseburger, or crispy chicken sandwich." },
+            { id: 9, title: "Mixed Grill Platter", price: "140 MAD", category: "mains", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=800", desc: "Assorted grilled meats, chicken breast, and seasonal vegetables." },
+            
+            // Salads & Appetizers
+            { id: 10, title: "Niçoise Salad", price: "65 MAD", category: "starters", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800", desc: "Assorted vegetables with tuna, eggs, and olive oil dressing." },
+            { id: 11, title: "Caesar Salad", price: "60 MAD", category: "starters", img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?q=80&w=800", desc: "Grilled chicken, romaine lettuce, Caesar dressing, and croutons.", featured: true },
+            { id: 12, title: "Seafood Salad", price: "85 MAD", category: "starters", img: "https://images.unsplash.com/photo-1551248429-40975aa4de74?q=80&w=800", desc: "Fresh assortment of seafood with Mediterranean dressing." },
+            
+            // Drinks
+            { id: 13, title: "Specialty Coffee", price: "25-35 MAD", category: "drinks", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=800", desc: "Espresso, Cappuccino, Latte, or Coffee with Milk." },
+            { id: 14, title: "Fresh Juices", price: "30 MAD", category: "drinks", img: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?q=80&w=800", desc: "Orange, Lemon, Mixed Fruit, or Avocado smoothie." },
+            { id: 15, title: "Premium Milkshakes", price: "40 MAD", category: "drinks", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?q=80&w=800", desc: "Vanilla, Chocolate, or Oreo. Topped with whipped cream." },
+            { id: 16, title: "Moroccan Tea", price: "20 MAD", category: "drinks", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=800", desc: "Brewed the traditional way with fresh mint and sugar.", featured: true },
+            { id: 17, title: "Iced Matcha Latte", price: "38 MAD", category: "drinks", img: "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?q=80&w=800", desc: "Smooth Japanese matcha blended with cold milk and light sweetness." },
+            { id: 18, title: "Strawberry Mojito", price: "42 MAD", category: "drinks", img: "https://images.unsplash.com/photo-1558645836-e44122a7430b?q=80&w=800", desc: "Fresh strawberries, mint leaves, lime, and sparkling soda." },                
+            { id: 19, title: "Blue Lagoon", price: "45 MAD", category: "drinks", img: "https://images.unsplash.com/photo-1572441713132-51c75654db73?q=80&w=800", desc: "Refreshing citrus drink with blue curacao syrup and lemon." },                
+            { id: 20, title: "Iced Vanilla Latte", price: "32 MAD", category: "drinks", img: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800", desc: "Cold espresso with milk and smooth vanilla flavor." },                
+            { id: 21, title: "Tropical Smoothie", price: "40 MAD", category: "drinks", img: "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?q=80&w=800", desc: "Blend of mango, pineapple, and orange for a tropical taste." },                
+            { id: 22, title: "Chocolate Frappe", price: "48 MAD", category: "drinks", img: "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?q=80&w=800", desc: "Iced chocolate drink topped with whipped cream and cocoa drizzle." },                
+            { id: 23, title: "Lemon Mint Juice", price: "28 MAD", category: "drinks", img: "https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=800", desc: "Fresh lemon juice mixed with mint for a refreshing Moroccan touch." },                
+            { id: 24, title: "Caramel Frappe", price: "45 MAD", category: "drinks", img: "https://images.unsplash.com/photo-1527169402691-a6d6a5f38c2b?q=80&w=800", desc: "Creamy iced coffee blended with caramel and topped with foam." },
+
+            // Desserts
+            { id: 25, title: "Chocolate Lava Cake", price: "50 MAD", category: "desserts", img: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?q=80&w=800", desc: "Rich chocolate cake with warm flowing sauce center." },
+            { id: 26, title: "Cheesecake", price: "45 MAD", category: "desserts", img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=800", desc: "Various flavors: Strawberry, Lotus, or Plain New York style." },
+            { id: 27, title: "Fresh Fruit Salad", price: "35 MAD", category: "desserts", img: "https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?q=80&w=800", desc: "Seasonal fresh fruits with honey and mint." },
+            { id: 28, title: "Chocolate Brownie", price: "40 MAD", category: "desserts", img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?q=80&w=800", desc: "Rich chocolate brownie with a soft center and crispy edges." },
+            { id: 29, title: "Strawberry Cheesecake", price: "50 MAD", category: "desserts", img: "https://images.unsplash.com/photo-1567171466295-4afa63d45416?q=80&w=800", desc: "Creamy cheesecake topped with fresh strawberries and sauce." },
+            { id: 30, title: "Lotus Cake", price: "55 MAD", category: "desserts", img: "https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?q=80&w=800", desc: "Soft cake layered with Lotus cream and biscuit crumble." },
+            { id: 31, title: "Vanilla Ice Cream", price: "30 MAD", category: "desserts", img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=800", desc: "Classic vanilla ice cream with a smooth and creamy texture." },
+            { id: 32, title: "Oreo Milkshake", price: "45 MAD", category: "desserts", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?q=80&w=800", desc: "Cold milkshake blended with Oreo cookies and topped with cream." },
+            { id: 33, title: "Caramel Flan", price: "35 MAD", category: "desserts", img: "https://images.unsplash.com/photo-1625944525533-473f1f0a2c4f?q=80&w=800", desc: "Traditional caramel flan with a silky smooth texture." },
+            { id: 34, title: "Chocolate Donuts", price: "30 MAD", category: "desserts", img: "https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800", desc: "Soft donuts coated with rich chocolate glaze." },
+            { id: 35, title: "Fruit Tart", price: "45 MAD", category: "desserts", img: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=800", desc: "Crispy tart filled with cream and topped with fresh fruits." }
+        ];
+
+        const menuGrid = document.getElementById('menuGrid');
+        const searchInput = document.getElementById('menuSearch');
+        const categoryButtons = document.querySelectorAll('.category-pill');
+
+        function renderMenu(filter = 'all', search = '') {
+            // Fade out current items
+            anime({
+                targets: '#menuGrid > div',
+                opacity: 0,
+                translateY: 20,
+                duration: 400,
+                easing: 'easeInExpo',
+                complete: () => {
+                    menuGrid.innerHTML = '';
+                    
+                    const filteredItems = menuData.filter(item => {
+                        const matchesCat = filter === 'all' || item.category === filter;
+                        const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) || 
+                                            item.desc.toLowerCase().includes(search.toLowerCase());
+                        return matchesCat && matchesSearch;
+                    });
+
+                    filteredItems.forEach((item, index) => {
+                        const card = `
+                            <div class="menu-item opacity-0 ${item.featured ? 'featured-item' : ''}" data-category="${item.category}">
+                                <div class="glass-card rounded-[2rem] overflow-hidden flex flex-col h-full">
+                                    <div class="card-image-container relative h-64 overflow-hidden">
+                                        <img src="${item.img}" class="w-full h-full object-cover" alt="${item.title}">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-[#0e0e13] to-transparent opacity-60"></div>
+                                        <div class="absolute bottom-4 left-6">
+                                             <span class="price-tag font-bold text-xl">${item.price}</span>
+                                        </div>
+                                    </div>
+                                    <div class="p-8 flex-grow">
+                                        <h3 class="font-luxury text-2xl mb-2 text-[#f2c483]">${item.title}</h3>
+                                        <p class="text-gray-400 text-sm leading-relaxed mb-6">${item.desc}</p>
+                                        <button class="flex items-center gap-2 text-xs uppercase tracking-widest text-white/70 hover:text-[#f2c483] transition-colors group">
+                                            <span>Add to Order</span>
+                                            <svg class="w-4 h-4 transform group-hover:rotate-12 group-hover:scale-125 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        menuGrid.insertAdjacentHTML('beforeend', card);
+                    });
+
+                    // Animate items in
+                    anime({
+                        targets: '.menu-item',
+                        opacity: [0, 1],
+                        translateY: [40, 0],
+                        scale: [0.95, 1],
+                        delay: anime.stagger(80),
+                        duration: 800,
+                        easing: 'easeOutExpo'
+                    });
+                }
+            });
+        }
+
+        // Search Listener
+        searchInput.addEventListener('input', (e) => {
+            const activeCat = document.querySelector('.category-pill.active').dataset.category;
+            renderMenu(activeCat, e.target.value);
+        });
+
+        // Category Listener
+        categoryButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Scroll to center active category on mobile only
+                if (window.innerWidth < 768) {
+                    const container = document.getElementById('categoryContainer');
+                    const btnRect = btn.getBoundingClientRect();
+                    const containerRect = container.getBoundingClientRect();
+                    const scrollLeft = container.scrollLeft + (btnRect.left - containerRect.left) - (containerRect.width / 2) + (btnRect.width / 2);
+                    container.scrollTo({
+                        left: scrollLeft,
+                        behavior: 'smooth'
+                    });
+                }
+                
+                renderMenu(btn.dataset.category, searchInput.value);
+            });
+        });
+
+        // Initial Load
+        renderMenu();
+
+       
+    </script>
+</body>
+</html>

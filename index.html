@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Ajanef Martil | Fine Patisserie & Cafe</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed-dim": "#c8c6c8",
+                        "tertiary-fixed": "#e5e2db",
+                        "on-primary-container": "#5b3d06",
+                        "surface-container-highest": "#35343a",
+                        "outline": "#9b8f81",
+                        "surface": "#131318",
+                        "background": "#131318",
+                        "primary-container": "#d4a96a",
+                        "surface-variant": "#35343a",
+                        "on-primary": "#442b00",
+                        "inverse-surface": "#e4e1e9",
+                        "secondary-fixed": "#e4e2e4",
+                        "secondary": "#c8c6c8",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#303036",
+                        "on-primary-fixed-variant": "#5f410a",
+                        "error": "#ffb4ab",
+                        "on-tertiary-container": "#44433e",
+                        "surface-container-lowest": "#0e0e13",
+                        "on-error": "#690005",
+                        "outline-variant": "#4f4539",
+                        "on-surface": "#e4e1e9",
+                        "surface-container-high": "#2a292f",
+                        "on-background": "#e4e1e9",
+                        "primary-fixed-dim": "#ecbf7e",
+                        "on-secondary-fixed": "#1b1b1d",
+                        "secondary-container": "#474649",
+                        "tertiary-container": "#b2b0aa",
+                        "surface-container-low": "#1b1b20",
+                        "primary-fixed": "#ffddb0",
+                        "on-surface-variant": "#d2c4b5",
+                        "tertiary-fixed-dim": "#c9c6c0",
+                        "primary": "#f2c483",
+                        "surface-dim": "#131318",
+                        "on-tertiary": "#31312c",
+                        "surface-container": "#1f1f25",
+                        "on-secondary": "#303032",
+                        "on-tertiary-fixed-variant": "#474742",
+                        "on-secondary-container": "#b6b4b7",
+                        "surface-bright": "#39383e",
+                        "inverse-primary": "#7a5821",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#474649",
+                        "surface-tint": "#ecbf7e",
+                        "tertiary": "#cecbc5",
+                        "on-tertiary-fixed": "#1c1c18",
+                        "on-primary-fixed": "#291800"
+                    },
+                    fontFamily: {
+                        headline: ["Playfair Display", "serif"],
+                        body: ["Plus Jakarta Sans", "sans-serif"],
+                        label: ["Plus Jakarta Sans", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0e0e13; color: #e4e1e9; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        
+        .glass-panel { 
+            background: rgba(31, 31, 37, 0.8); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+        
+        @keyframes fade-in-up {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.3s ease-out forwards;
+        }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel { background: rgba(31, 31, 37, 0.6); backdrop-filter: blur(20px); }
+        .gold-gradient { background: linear-gradient(135deg, #f2c483 0%, #d4a96a 100%); }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(242, 196, 131, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(242, 196, 131, 0); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+        .animate-slide-in { animation: slideIn 0.3s ease-out forwards; }
+        .animate-pulse-gold { animation: pulse-gold 2s infinite; }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .cart-badge { 
+            position: absolute; 
+            top: -5px; 
+            right: -5px; 
+            background: #f2c483; 
+            color: #131318; 
+            font-size: 10px; 
+            font-weight: bold; 
+            width: 18px; 
+            height: 18px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        
+        .toast { 
+            position: fixed; 
+            bottom: 100px; 
+            left: 50%; 
+            transform: translateX(-50%) translateY(100px); 
+            background: rgba(31, 31, 37, 0.95); 
+            border: 1px solid #d4a96a; 
+            padding: 12px 24px; 
+            border-radius: 12px; 
+            z-index: 100; 
+            opacity: 0; 
+            transition: all 0.3s ease; 
+            backdrop-filter: blur(10px); 
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        
+        .mobile-menu { 
+            opacity: 0; 
+            transform: translateY(-10px); 
+            pointer-events: none; 
+            transition: all 0.3s ease; 
+        }
+        .mobile-menu.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+            pointer-events: auto; 
+        
+        .img-zoom { overflow: hidden; }
+        .img-zoom img { transition: transform 0.7s ease; }
+        .img-zoom:hover img { transform: scale(1.1); }
+        }
+        /* #hoodieCanvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+    } */
+    #hoodieCanvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    /* Hadu homa l-asrar dyal high quality appearance */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    filter: contrast(1.1) brightness(0.9) sharp(1px);
+    object-fit: cover;
+}
+    </style>
+</head>
+<body class="bg-surface-container-lowest overflow-x-hidden">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary">check_circle</span>
+        <span id="toast-message" class="text-sm font-bold">Added to cart</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-md border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="flex justify-between items-center w-full px-4 md:px-8 py-4 max-w-full">
+            <div class=" text-2xl font-serif text-[#d4a96a] italic cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Ajanef Martil</div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8">
+                <a class="nav-link text-[#f2c483] border-b-2 border-[#d4a96a] pb-1 font-serif text-lg tracking-wide transition-all" href="#menu">Menu</a>
+                <a class="nav-link text-zinc-400 hover:text-[#f2c483] transition-colors font-serif text-lg tracking-wide" href="#bakeries">Bakery</a>
+                <a class="nav-link text-zinc-400 hover:text-[#f2c483] transition-colors font-serif text-lg tracking-wide" href="#about">About</a>
+                <a class="nav-link text-zinc-400 hover:text-[#f2c483] transition-colors font-serif text-lg tracking-wide" href="#traiteur">Catering</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-zinc-300 hover:text-primary transition-colors">
+                    <i class="fa-solid fa-bars text-xl menu-icon"></i>
+                </button>
+                
+                <button onclick="toggleCart()" class="relative flex items-center gap-2 bg-gradient-to-br from-[#f2c483] to-[#d4a96a] text-zinc-950 px-4 md:px-5 py-2 rounded-full font-bold text-sm hover:scale-95 transition-transform active:opacity-80">
+                    <span class="material-symbols-outlined text-xl">shopping_cart</span>
+                    <span class="hidden sm:inline">Cart</span>
+                    <span id="cart-badge" class="cart-badge hidden">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu md:hidden absolute top-full left-0 w-full bg-zinc-950/95 backdrop-blur-xl border-b border-[#4f4539]/20">
+            <div class="flex flex-col p-4 gap-4 text-center">
+                <a href="#menu" class="text-zinc-300 hover:text-primary py-2 border-b border-zinc-800">Menu</a>
+                <a href="#bakeries" class="text-zinc-300 hover:text-primary py-2 border-b border-zinc-800">Bakery</a>
+                <a href="#about" class="text-zinc-300 hover:text-primary py-2 border-b border-zinc-800">About</a>
+                <a href="#traiteur" class="text-zinc-300 hover:text-primary py-2">Catering</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-20">
+        <!-- Hero Section -->
+        <section class="relative min-h-[400vh] w-full"> 
+            <div class="sticky top-0 h-screen w-full overflow-hidden z-0">
+                <canvas id="hoodieCanvas" class="w-full h-full object-cover"></canvas>
+                
+                <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+            </div>
+        
+            <div class="absolute top-0 left-0 w-full h-full z-10">
+                <div id="uiLayer" class="h-screen flex flex-col items-center justify-center px-6 text-center">
+                    <div class="reveal inline-flex items-center px-4 py-1 rounded-full border border-primary/30 bg-primary/5 mb-8">
+                        <span class="text-primary text-[10px] tracking-[0.2em] font-label font-medium uppercase">Patisserie & Cafe · Martil</span>
+                    </div>
+                    <h1 class="reveal text-5xl md:text-7xl lg:text-8xl font-serif font-bold mb-6 leading-tight text-white">
+                        Authentic Taste at <span class="text-primary italic">Ajanef</span>
+                    </h1>
+                    <p class="reveal text-white/80 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+                        The excellence of fine patisserie in the heart of Martil.
+                        <br class="hidden md:block"/>
+                        Blending Moroccan traditions with modern Parisian touches.
+                    </p>
+                    <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-6">
+                        <button class="gold-gradient text-on-primary px-10 py-4 rounded-full font-bold text-lg w-full sm:w-auto shadow-2xl hover:scale-105 transition-transform">
+                            Browse Menu
+                        </button>
+                        <button class="border border-outline-variant/40 bg-surface-container/30 backdrop-blur-md text-white px-10 py-4 rounded-full font-bold text-lg w-full sm:w-auto hover:bg-surface-container/50 transition-colors flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">chat</span>
+                            Order via WhatsApp
+                        </button>
+                    </div>
+                </div>
+        
+                <div class="h-[300vh]"></div>
+            </div>
+        </section>
+
+        <!-- Featured Gallery -->
+        <section id="bakeries" class="py-24 px-6 max-w-7xl mx-auto">
+            <div class="reveal mb-12 text-center">
+                <h2 class="text-4xl font-serif font-bold mb-4">Featured Selections</h2>
+                <div class="w-20 h-1 bg-primary rounded-full mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[250px]">
+                <!-- Featured Item -->
+                <div class="reveal md:col-span-8 md:row-span-2 group relative overflow-hidden rounded-3xl bg-surface-container cursor-pointer img-zoom" onclick="quickAddToCart(1)">
+                    <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDh1Wz15spPEzBcHLJ7xAAtAZXM4Z6lXJqIwjfIt-aIuBUnSZiGDWFdLzVYx5OK7FO43R_ZlCKyRUvDEAnXZZNEy5nydavBMMz83RSoQccLN1-rAo8mtdep8N8rJefCa-oEXxBiV1xs88gcxKkrSjbYa3ypyxJrnmZAIh6vhmDoWtA0cYN3ER9XDDhtL1osqq3JNEZjNZ0Q7kk8jCDIcXzT4TskOEwv1oqvPkuuD4awedwO6BVIP5VkdLMBWTh6We0LBZ0TGZRmSOQ" alt="Almond Croissant"/>
+                    <div class="absolute top-6 right-6 gold-gradient text-on-primary px-4 py-2 rounded-xl font-bold text-lg shadow-xl transform group-hover:scale-110 transition-transform">
+                        25 MAD
+                    </div>
+                    <div class="absolute top-6 left-6 bg-black/50 backdrop-blur-md p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="material-symbols-outlined text-white">add_shopping_cart</span>
+                    </div>
+                    <div class="absolute bottom-0 inset-x-0 glass-panel p-6 border-t border-white/5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                        <h3 class="text-2xl font-bold text-white mb-1">Almond Croissant</h3>
+                        <p class="text-on-surface-variant text-sm">French pastries with Moroccan depth of flavor</p>
+                    </div>
+                </div>
+
+                <!-- Secondary Items -->
+                <div class="reveal md:col-span-4 md:row-span-1 group relative overflow-hidden rounded-3xl bg-surface-container cursor-pointer img-zoom" style="transition-delay: 100ms;" onclick="quickAddToCart(2)">
+                    <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8uqvCE6SV2fpXAhCjRT3J4Z1xXmBJEH8KaKoOlBSjKQF7lfDS7_4LUCCIWGWPghzhq0ee760MDdEnoiS-KhHHKxGr0IELxPc9sv40fs7c-cxvQqAnCIg4kp1piBMekqr50K216LzV1Or7l5GHz4oEjCC_6y3351qcK2dcP4wTcdcoa0uQ2VSyq_kSeM5YC-WgsUK7Ttu3TkfeQl3xvJvinrJ1-Asems01YLzkt043KR8O_5jfRegfyfstwn99EpxlaVcpZ1ejsfM" alt="Birthday Cake"/>
+                    <div class="absolute top-4 right-4 gold-gradient text-on-primary px-3 py-1 rounded-lg font-bold text-sm shadow-xl">
+                        320 MAD
+                    </div>
+                    <div class="absolute bottom-0 inset-x-0 glass-panel p-4 border-t border-white/5">
+                        <h3 class="text-lg font-bold text-white">Birthday Cake</h3>
+                    </div>
+                </div>
+
+                <div class="reveal md:col-span-4 md:row-span-1 group relative overflow-hidden rounded-3xl bg-surface-container cursor-pointer img-zoom" style="transition-delay: 200ms;" onclick="quickAddToCart(3)">
+                    <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdXoXKZMV01pgkzyB9gvIfzL6lipPCdUT10yBrkCfiHhn_M4gjH55FgNAtjfyFFFWQv8k4iPHZBSDmtXG-uM9IGO6aTaZg6n0Rwq4Ei6FS6Txpnhq29hls_JAm0LvVwxowVn1Aukf-af-ONaQuMa9_f8xOGTIjJd9EjuUh4iRn0Ce_7KnFWIBoWVyFrFzT3GEViubNMcdpYJvT1Ij6Dsbfu-sVc6xi5qmXQtBcmLwxuapEK480H5XMc1jq2jUsH91QtOgQF-9eTB4" alt="Latte Art"/>
+                    <div class="absolute top-4 right-4 gold-gradient text-on-primary px-3 py-1 rounded-lg font-bold text-sm shadow-xl">
+                        35 MAD
+                    </div>
+                    <div class="absolute bottom-0 inset-x-0 glass-panel p-4 border-t border-white/5">
+                        <h3 class="text-lg font-bold text-white">Latte Art</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Menu Section -->
+        <section id="menu" class="py-24 bg-surface-container-low/50">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="reveal flex flex-col items-center mb-16 text-center">
+                    <h2 class="text-4xl font-serif font-bold mb-4">Our Menu</h2>
+                    <div class="w-20 h-1 bg-primary rounded-full mb-8"></div>
+                    
+                    <!-- Search Bar -->
+                    <div class="relative w-full max-w-md mb-8">
+                        <input type="text" id="search-input" placeholder="Search menu..." 
+                               class="w-full bg-surface-container border border-outline-variant/30 rounded-full px-12 py-3 text-on-surface placeholder-zinc-500 focus:outline-none focus:border-primary transition-colors">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">search</span>
+                    </div>
+
+                    <!-- Category Pills -->
+                    <div class="w-full overflow-x-auto scrollbar-hide flex gap-3 pb-4 px-2 justify-start md:justify-center" id="category-container">
+                        <!-- Categories injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Menu Grid -->
+                <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Menu items injected by JS -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="empty-state" class="hidden text-center py-20">
+                    <span class="material-symbols-outlined text-6xl text-zinc-600 mb-4">search_off</span>
+                    <p class="text-zinc-400 text-lg">No items match your search</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Catering Section -->
+        <div class="stacked-wrapper relative z-50 bg-surface">
+
+           
+
+            <section id="traiteur" class="sticky-card sticky top-12 pb-24 px-6">
+
+                <div class="max-w-5xl mx-auto reveal">
+
+                    <div class="relative overflow-hidden rounded-[2rem] border border-primary/20 bg-surface-container-low p-8 md:p-16">
+
+                        <div class="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+
+                        <div class="relative z-10 flex flex-col md:flex-row items-center gap-12">
+
+                            <div class="flex-1 text-left">
+
+                                <span class="text-primary font-label text-sm tracking-widest uppercase mb-4 block">Premium Services</span>
+
+                                <h2 class="text-4xl md:text-5xl font-serif font-bold mb-6">Event Catering</h2>
+
+                                <p class="text-on-surface-variant text-lg mb-8 leading-relaxed">
+
+                                    We make your occasions unforgettable. Offering the finest selection of pastries, desserts, and savory items customized for your celebrations and meetings.
+
+                                </p>
+
+                                <ul class="grid grid-cols-2 gap-4 mb-10 text-on-surface">
+
+                                    <li class="flex items-center gap-2">
+
+                                        <span class="material-symbols-outlined text-primary text-sm">stars</span>
+
+                                        <span>Luxury Weddings</span>
+
+                                    </li>
+
+                                    <li class="flex items-center gap-2">
+
+                                        <span class="material-symbols-outlined text-primary text-sm">stars</span>
+
+                                        <span>Graduation Parties</span>
+
+                                    </li>
+
+                                    <li class="flex items-center gap-2">
+
+                                        <span class="material-symbols-outlined text-primary text-sm">stars</span>
+
+                                        <span>Corporate Events</span>
+
+                                    </li>
+
+                                    <li class="flex items-center gap-2">
+
+                                        <span class="material-symbols-outlined text-primary text-sm">stars</span>
+
+                                        <span>Birthday Celebrations</span>
+
+                                    </li>
+
+                                </ul>
+
+                                <button onclick="sendWhatsAppMessage('Hello, I would like to inquire about your catering services')" class="flex items-center gap-3 bg-[#25D366] text-white px-8 py-4 rounded-full font-bold hover:scale-105 transition-transform shadow-xl shadow-[#25D366]/20">
+
+                                    <span class="material-symbols-outlined">chat</span>
+
+                                    Inquire via WhatsApp
+
+                                </button>
+
+                            </div>
+
+                            <div class="flex-1 w-full max-w-sm">
+
+                                <div class="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl img-zoom">
+
+                                    <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG49jeBkrTEHPnrXEzfDt_0fgwPqTX5Xoc5__f61yn5G1CKwWIDbYHqaUjFGLhJ9YYps_PsmBXYEiYEHLRYanBwioYHnhPK8MS9_WBg_spjcMqdR7zYhCrArT5tkA5rzNVaIHwVaWjZtmiDdMEvmvumb8NuxDZ6ST2jTOkBqTAFx-VKHrUICMqpRJB3O_rCMcjHF4whCuDkkjY_Idde-ulcRquyyc89jDFKuq6TrWfgvYeuvz3M7DFfpqJexjcEC2wI-1ILOsfIcA" alt="Catering"/>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- -------------- -->
+            <section class="sticky-card sticky top-12 pb-24 px-6">
+                <div class="max-w-5xl mx-auto relative overflow-hidden rounded-[2rem] border border-primary/20 bg-surface-container-low p-8 md:p-16 shadow-2xl min-h-[500px] flex items-center">
+                    <div class="relative z-10 flex flex-col md:flex-row items-center gap-12 w-full">
+                        <div class="flex-1 text-left">
+                            <span class="text-primary font-label text-sm tracking-widest uppercase mb-4 block">Protocol 01 // CATERING</span>
+                            <h2 class="text-4xl md:text-5xl font-serif font-bold mb-6 uppercase">Event <br><span class="opacity-50">Catering.</span></h2>
+                            <p class="text-on-surface-variant text-lg mb-8 leading-relaxed">Finest selection of pastries and savory items customized for your celebrations.</p>
+                            <button onclick="sendWhatsAppMessage('Catering Inquiry')" class="gold-gradient text-white px-8 py-4 rounded-full font-bold shadow-xl ">Inquire via WhatsApp</button>
+                        </div>
+                        <div class="flex-1 w-full max-w-sm">
+                            <div class="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl"><img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1000&auto=format&fit=crop" alt="Catering"/></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        
+            <section class="sticky-card sticky top-20 pb-24 px-6">
+                <div class="max-w-5xl mx-auto relative overflow-hidden rounded-[2rem] border border-primary/20 bg-surface-container-low p-8 md:p-16 shadow-2xl min-h-[500px] flex items-center">
+                    <div class="relative z-10 flex flex-col md:flex-row items-center gap-12 w-full">
+                        <div class="flex-1 text-left">
+                            <span class="text-primary font-label text-sm tracking-widest uppercase mb-4 block">Protocol 02 // WEDDINGS</span>
+                            <h2 class="text-4xl md:text-5xl font-serif font-bold mb-6 uppercase">Luxury <br><span class="opacity-50">Weddings.</span></h2>
+                            <p class="text-on-surface-variant text-lg mb-8 leading-relaxed">Making your special day unforgettable with elegant dessert displays.</p>
+                            <button onclick="sendWhatsAppMessage('Wedding Inquiry')" class="gold-gradient text-white px-8 py-4 rounded-full font-bold shadow-xl ">Inquire via WhatsApp</button>
+                        </div>
+                        <div class="flex-1 w-full max-w-sm">
+                            <div class="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl"><img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1000&auto=format&fit=crop" alt="Weddings"/></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        
+            <section class="sticky-card sticky top-28 pb-24 px-6">
+                <div class="max-w-5xl mx-auto relative overflow-hidden rounded-[2rem] border border-primary/20 bg-surface-container-low p-8 md:p-16 shadow-2xl min-h-[500px] flex items-center">
+                    <div class="relative z-10 flex flex-col md:flex-row items-center gap-12 w-full">
+                        <div class="flex-1 text-left">
+                            <span class="text-primary font-label text-sm tracking-widest uppercase mb-4 block">Protocol 03 // CORPORATE</span>
+                            <h2 class="text-4xl md:text-5xl font-serif font-bold mb-6 uppercase">Business <br><span class="opacity-50">Meetings.</span></h2>
+                            <p class="text-on-surface-variant text-lg mb-8 leading-relaxed">Professional catering for your corporate events and board meetings.</p>
+                            <button onclick="sendWhatsAppMessage('Corporate Inquiry')" class="gold-gradient text-white px-8 py-4 rounded-full font-bold shadow-xl ">Inquire via WhatsApp</button>
+                        </div>
+                        <div class="flex-1 w-full max-w-sm">
+                            <div class="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl"><img class="w-full h-full object-cover" src="./images/wedding_cake.jpeg" alt="Corporate"/></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        
+        </div>
+        <!-- About Section -->
+        <section id="about" class="py-24 px-6 bg-surface-container-low/30">
+            <div class="max-w-4xl mx-auto text-center reveal">
+                <h2 class="text-4xl font-serif font-bold mb-6">About Ajanef</h2>
+                <p class="text-on-surface-variant text-lg leading-relaxed mb-8">
+                    Founded in the heart of Martil with a mission to revive traditional Moroccan culinary arts with a modern twist. We use only the finest natural ingredients, both local and imported, to provide you with a unique experience.
+                </p>
+                <div class="grid grid-cols-3 gap-8 mt-12">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2" id="counter-1">0</div>
+                        <div class="text-sm text-zinc-400">Happy Customers</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2" id="counter-2">0</div>
+                        <div class="text-sm text-zinc-400">Products Daily</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2" id="counter-3">0</div>
+                        <div class="text-sm text-zinc-400">Years Experience</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="w-full border-t border-[#4f4539]/10 bg-zinc-950 flex flex-col items-center justify-center w-full py-12 px-4 gap-6">
+            <div class="text-lg font-serif text-[#d4a96a]">Ajanef Martil</div>
+            <div class="flex items-center gap-8">
+                <a href="https://instagram.com" target="_blank" class="text-zinc-500 hover:text-primary transition-colors flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">photo_camera</span>
+                    Instagram
+                </a>
+                <a href="https://maps.google.com" target="_blank" class="text-zinc-500 hover:text-primary transition-colors flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">location_on</span>
+                    Martil, Morocco
+                </a>
+            </div>
+            <div class="text-zinc-500 text-sm">
+                © 2024 Ajanef Martil. All rights reserved
+            </div>
+        </footer>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <aside id="cart-sidebar" class="fixed right-0 top-0 h-full w-full sm:w-96 bg-zinc-900/98 backdrop-blur-2xl border-l border-[#4f4539]/20 shadow-[-20px_0_40px_rgba(0,0,0,0.5)] z-[60] flex flex-col p-6 transform translate-x-full transition-transform duration-300">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h2 class="text-xl font-bold text-[#d4a96a]">Shopping Cart</h2>
+                <p class="text-zinc-400 text-sm"><span id="cart-count">0</span> items</p>
+            </div>
+            <button onclick="toggleCart()" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <div id="cart-items" class="flex-1 overflow-y-auto space-y-4 mb-8 scrollbar-hide">
+            <!-- Cart items injected by JS -->
+        </div>
+
+        <div id="cart-empty" class="hidden flex-1 flex flex-col items-center justify-center text-zinc-500">
+            <span class="material-symbols-outlined text-6xl mb-4">shopping_basket</span>
+            <p>Your cart is empty</p>
+        </div>
+
+        <div class="mt-auto space-y-4 pt-6 border-t border-[#4f4539]/10">
+            <div class="flex justify-between items-center text-zinc-400 text-sm">
+                <span>Subtotal:</span>
+                <span class="font-bold" id="subtotal">0 MAD</span>
+            </div>
+            <div class="flex justify-between items-center text-zinc-100 text-xl font-bold">
+                <span>Total:</span>
+                <span class="text-[#f2c483]" id="total">0 MAD</span>
+            </div>
+            <button onclick="checkout()" id="checkout-btn" class="w-full bg-[#25D366] text-zinc-950 py-4 rounded-xl font-bold flex items-center justify-center gap-3 hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed">
+                <span class="material-symbols-outlined">send</span>
+                Send Order via WhatsApp
+            </button>
+            <button onclick="clearCart()" class="w-full text-zinc-500 text-sm hover:text-red-400 transition-colors py-2">
+                Clear Cart
+            </button>
+        </div>
+    </aside>
+
+    <!-- Overlay -->
+    <div id="overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- Floating Action Button (Mobile) -->
+    <button onclick="toggleCart()" class="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-primary text-zinc-950 rounded-full shadow-2xl shadow-primary/30 flex items-center justify-center z-40 hover:scale-110 transition-transform">
+        <span class="material-symbols-outlined text-2xl">shopping_cart</span>
+        <span id="mobile-cart-badge" class="cart-badge hidden">0</span>
+    </button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="./js/animtion.js"></script>
+    <script src="./js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const icon = mobileBtn.querySelector('.menu-icon');
+            
+            mobileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const isOpen = mobileMenu.classList.toggle('active');
+                
+                // Menu animation with anime.js
+                anime({
+                    targets: mobileMenu,
+                    opacity: isOpen ? 1 : 0,
+                    translateY: isOpen ? 0 : -10,
+                    duration: 300,
+                    easing: 'easeOutQuad'
+                });
+                
+                // Toggle Font Awesome icon
+                if (isOpen) {
+                    icon.className = 'fa-solid fa-xmark text-xl menu-icon';
+                } else {
+                    icon.className = 'fa-solid fa-bars text-xl menu-icon';
+                }
+            });
+            
+            // Close on outside click
+            document.addEventListener('click', function(e) {
+                if (!mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                    icon.className = 'fa-solid fa-bars text-xl menu-icon';
+                }
+            });
+        });
+    </script>
+   
+</body>
+</html>
